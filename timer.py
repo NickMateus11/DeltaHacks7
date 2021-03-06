@@ -39,9 +39,10 @@ def Pom():
         break_time = breakTimeSet()
         cycles = cyclesSet()
 
+        date = datetime.datetime.now()
         payload = {
-            'date': f"'{datetime.datetime.now()}'",
-            'start_time': time.time(),
+            'date': f"'{str(date.date())}'",
+            'start_time': f"'{str(date.time())}'",
             'work_time': work_time,
             'break_time': break_time,
             'cycles': cycles
