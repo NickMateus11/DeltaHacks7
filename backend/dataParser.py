@@ -6,5 +6,5 @@ def get_data(filename='historicalData.txt'):
     json_data = []
     if len(lines) > 1:
         for i in range(1,len(lines)):
-            json_data.append({lines[0][j]:lines[i][j] for j in range(len(lines[0]))})
+            json_data.append({lines[0][j]:eval(lines[i][j]) for j in range(len(lines[0]))})
     return json_data
