@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import time
+import dataParser as dp
 
 app = Flask(__name__)
 globalData = time.time()
@@ -21,8 +22,8 @@ def currentdata():
         return jsonify(globalData)
 
 @app.route('/historicaldata')
-def olddata():
-    response = jsonify({'success':True})
+def historicaldata():
+    response = jsonify(dp.get_data())
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
