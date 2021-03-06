@@ -3,23 +3,21 @@ import time
 import dataParser as dp
 
 app = Flask(__name__)
-globalData = time.time()
 
 @app.route('/')
 def home():
-    return jsonify(globalData)
+    return "Nothing to see here ... keep moving"
 
 @app.route('/currentdata', methods=['GET','POST'])
 def currentdata():
     if request.method == 'POST':
-        global globalData
         data = request.get_json()
-        globalData = data['test']
+        dp.save_data(data)        
         response = jsonify({'success':True})
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        return response
     else:
-        return jsonify(globalData)
+        response = jsonify(dp.get_data()[-1])
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 @app.route('/historicaldata')
 def historicaldata():
