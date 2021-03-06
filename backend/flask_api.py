@@ -5,14 +5,18 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return response
+    return "Mikha"
 
 @app.route('/currentdata')
-def data():
+def currentdata():
+    response = "Filler"
+    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 @app.route('/historicaldata')
-def get_flag():
+def olddata():
+    response = "Filler"
+    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 
