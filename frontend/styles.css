@@ -105,10 +105,25 @@ ul li.stat {
   cursor: auto; 
   position: relative;
   color: black;
-  background-color: transparent;
   border: 1px solid black;  
 }
 
+.total {
+  cursor: default; 
+  display: inline-block; 
+  padding: 5px;
+  margin: 0;  
+  background-color: #ffb2c1;
+  transition: 0.3s;
+  border: 2px solid white; 
+}
+.total:hover{
+  background-color: #f88b9b;
+  cursor: default;
+}
+.total p{
+  display: inline;
+} 
 .close {
   position: absolute;
   right: 0;

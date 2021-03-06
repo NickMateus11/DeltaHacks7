@@ -21,15 +21,15 @@ async function getCurrentData() {
 
             let now = new Date().getTime(),
                 distance = countDown - now;
-                document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+            document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
                 document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
                 document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
-            
-            if (Math.floor((distance % (hour)) / (minute)) % 2 == 0){
+
+            if (Math.floor((distance % (hour)) / (minute)) % 2 == 0) {
                 document.getElementById("onoroff").innerText = "Keep Working";
-                
+
             }
-            else{
+            else {
                 document.getElementById("onoroff").innerText = "Take A Break";
             }
 
@@ -123,7 +123,7 @@ function showHistory(data) {
         cycles.innerHTML = "Cycles:" + data[i]["cycles"];
         var work = document.createElement("li");
         work.className = "stat";
-        work.innerHTML = "Work Time:" + data[i]["cycles"];
+        work.innerHTML = "Work Time:" + data[i]["work_time"];
         ul.appendChild(date);
         ul.appendChild(start);
         ul.appendChild(work);
@@ -133,5 +133,17 @@ function showHistory(data) {
     }
 }
 getHistoricalData().then((data) => {
-    showHistory(data)
+    showHistory(data), showTotals(data)
 });
+
+function showTotals(data) {
+    let sessions = Object.keys(data)
+    var worked = 0;
+    var rested = 0;
+    for (i = 0; i < sessions.length; i++) {
+        worked = worked + data[i]["work_time"] * data[i]["cycles"]
+        rested = rested + data[i]["break_time"] * data[i]["cycles"]
+    }
+    document.getElementById("worked").innerText = worked;
+    document.getElementById("rested").innerText = rested;
+}
