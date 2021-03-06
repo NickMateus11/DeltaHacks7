@@ -1,5 +1,10 @@
-async function getData() {
+async function getHistoricalData() {
     response = await fetch('http://192.168.0.126:5000/historicaldata')
+    data = await response.json()
+    return data
+}
+async function getCurrentData() {
+    response = await fetch('http://192.168.0.126:5000/currentdata')
     data = await response.json()
     return data
 }
@@ -16,9 +21,17 @@ async function getData() {
 
             let now = new Date().getTime(),
                 distance = countDown - now;
-            document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+                document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
                 document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
                 document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+            
+            if (Math.floor((distance % (hour)) / (minute)) % 2 == 0){
+                document.getElementById("onoroff").innerText = "Keep Working";
+                
+            }
+            else{
+                document.getElementById("onoroff").innerText = "Take A Break";
+            }
 
             if (distance < 0) {
                 let headline = document.getElementById("headline"),
@@ -92,23 +105,33 @@ function newElement() {
         }
     }
 }
-
 function showHistory(data) {
     let sessions = Object.keys(data)
     for (i = 0; i < sessions.length; i++) {
         var ul = document.createElement('ul');
-        var date = document.createTextNode(data[i]["date"]);
-        var li = document.createElement('li');
-        var start = document.createTextNode("Start Time:" + data[i]["start_time"]);
-        var breaks = document.createTextNode("Break Time:" + data[i]["break_time"]);
-        var cycles = document.createTextNode("Cycles:" + data[i]["cycles"]);
-        ul.appendChild(li.appendChild(date));
-        ul.appendChild(li.appendChild(start));
-        ul.appendChild(li.appendChild(breaks));
-        ul.appendChild(li.appendChild(cycles));
+        var date = document.createElement('li');
+        date.className = "stat";
+        date.innerHTML = data[i]["date"];
+        var start = document.createElement('li');
+        start.className = "stat";
+        start.innerHTML = "Start Time:" + data[i]["start_time"];
+        var breaks = document.createElement('li');
+        breaks.className = "stat";
+        breaks.innerHTML = "Break Time:" + data[i]["break_time"];
+        var cycles = document.createElement('li');
+        cycles.className = "stat";
+        cycles.innerHTML = "Cycles:" + data[i]["cycles"];
+        var work = document.createElement("li");
+        work.className = "stat";
+        work.innerHTML = "Work Time:" + data[i]["cycles"];
+        ul.appendChild(date);
+        ul.appendChild(start);
+        ul.appendChild(work);
+        ul.appendChild(breaks);
+        ul.appendChild(cycles);
         document.getElementById("sessions").appendChild(ul);
     }
 }
-getData().then((data) => {
+getHistoricalData().then((data) => {
     showHistory(data)
 });

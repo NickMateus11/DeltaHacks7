@@ -99,6 +99,16 @@ ul li.checked::before {
   width: 7px;
 }
 
+ul li.stat {
+  padding:10px;
+  margin: 0 auto;
+  cursor: auto; 
+  position: relative;
+  color: black;
+  background-color: transparent;
+  border: 1px solid black;  
+}
+
 .close {
   position: absolute;
   right: 0;
