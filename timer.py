@@ -28,34 +28,54 @@ def cyclesSet():
     print(f"Cycles: {cycles}")
     return cycles
 
-try:
-    work_time = workTimeSet()
-    break_time = breakTimeSet()
-    cycles = cyclesSet()
-    # sending POST to backend
+def Pom():
+    try:
+        work_time = workTimeSet()
+        break_time = breakTimeSet()
+        cycles = cyclesSet()
+        # sending POST to backend
 
-    workLED.on()
-    breakLED.off()
-    for i in range(2*cycles):
-        start_time = time.time()
-        timer_time = work_time if not i%2 else break_time
-        elapsed = 0
-        while (elapsed < timer_time):
-            elapsed = time.time() - start_time
-        print(f"{'Work' if not i%2 else 'Break'} time finished")
-        if i<2*cycles-1:
-            kp.beep(5)
-            workLED.toggle()
-            breakLED.toggle()
+        workLED.on()
+        breakLED.off()
+        for i in range(2*cycles):
+            start_time = time.time()
+            timer_time = work_time if not i%2 else break_time
+            elapsed = 0
+            while (elapsed < timer_time):
+                kp.check_input()
+                elapsed = time.time() - start_time
+            print(f"{'Work' if not i%2 else 'Break'} time finished")
+            if i<2*cycles-1:
+                kp.beep(5)
+                workLED.toggle()
+                breakLED.toggle()
 
-    workLED.blink(0.5,0.5)
-    breakLED.blink(0.5,0.5)
-    kp.beep(10)
-    time.sleep(1)
-    kp.beep(10)
-    
-except KeyboardInterrupt:
-    print("Keyboard Interrupt")
+        workLED.blink(0.5,0.5)
+        breakLED.blink(0.5,0.5)
+        kp.beep(10)
+        time.sleep(1)
+        kp.beep(10)
 
-workLED.close()
-breakLED.close()
+    except kp.ResetInterrupt:
+        workLED.blink(0.2,0.2)
+        breakLED.blink(0.2,0.2)
+        kp.beep(10)
+        workLED.off()
+        breakLED.off()
+        print("Reset Interrupt")
+
+def main():
+    try:
+        Pom()
+        while True:
+            if kp.check_input(interupt_enabled=False) is kp.RESET:
+                kp.beep(3)
+                Pom()
+    except KeyboardInterrupt:
+        pass            
+
+    workLED.close()
+    breakLED.close()
+
+if __name__ == '__main__':
+    main()

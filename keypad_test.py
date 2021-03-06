@@ -2,6 +2,7 @@ import gpiozero as zero
 from time import time, sleep
 
 ENTER = '#'
+RESET = '*'
 
 pin_def = {"rows":['GPIO14','GPIO15','GPIO18','GPIO23'],
            "cols":['GPIO24','GPIO25','GPIO08','GPIO07']}
@@ -26,6 +27,9 @@ button_map = {
     }
 
 
+class ResetInterrupt(Exception):
+    pass
+
 data_pins = []
 for pin in pin_def['rows']:
     data_pins.append(zero.DigitalOutputDevice(pin,active_high=False,initial_value=True))
@@ -33,7 +37,7 @@ for pin in pin_def['cols']:
     data_pins.append(zero.DigitalInputDevice(pin,pull_up=True))
 
 
-def check_input():
+def check_input(interupt_enabled=True):
     for row in data_pins[:4]:
         row.on()
         sleep(0.01)
@@ -41,7 +45,10 @@ def check_input():
             if col.value:
                 while col.value: continue
                 row.off()
-                return button_map[str(row.pin)+str(col.pin)]
+                button = button_map[str(row.pin)+str(col.pin)]
+                if interupt_enabled and button is RESET:
+                    raise ResetInterrupt
+                return button
         row.off()
     return None
 
@@ -50,7 +57,7 @@ def get_input_string():
     enter = False
     while (not enter):
         button = get_input(doBeep=True)
-        if button == ENTER:
+        if button is ENTER:
             enter = True
         else:
             input_string += button
