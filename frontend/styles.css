@@ -20,6 +20,11 @@
     margin: 0 auto;
     text-align: center;
   }
+  .toplevel {
+    color: #333;
+    margin: 0 auto;
+    text-align: center;
+  }
   
   h1 {
     font-weight: normal;
