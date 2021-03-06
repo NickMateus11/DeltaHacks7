@@ -1,6 +1,8 @@
 import gpiozero as zero
 from time import time, sleep
 
+ENTER = '#'
+
 pin_def = {"rows":['GPIO14','GPIO15','GPIO18','GPIO23'],
            "cols":['GPIO24','GPIO25','GPIO08','GPIO07']}
 
@@ -43,17 +45,29 @@ def check_input():
         row.off()
     return None
 
+def get_input_string():
+    input_string = ''
+    enter = False
+    while (not enter):
+        button = get_input(doBeep=True)
+        if button == ENTER:
+            enter = True
+        else:
+            input_string += button
+    return input_string
 
-def get_input():
+def get_input(doBeep=False):
     while True:
         button = check_input()
         if button:
+            if doBeep:
+                beep()
             return button
 
-def beep(repeat=2):
+def beep(repeat=1):
     buz = zero.PWMOutputDevice('GPIO1')
     for _ in range(repeat):
-        buz.value = 0.1
+        buz.value = 0.2
         sleep(0.1)
         buz.off()
         sleep(0.1)
@@ -62,7 +76,7 @@ def main():
     while True:
         button = get_input()
         print(button)
-        beep()
+        beep(2)
 
 if __name__ == '__main__':
     main()
