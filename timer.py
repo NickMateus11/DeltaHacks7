@@ -1,4 +1,5 @@
 import time
+import datetime
 import gpiozero as zero
 import keypad_test as kp
 import requests
@@ -38,7 +39,13 @@ def Pom():
         break_time = breakTimeSet()
         cycles = cyclesSet()
 
-        payload = {'test': time.time()}
+        payload = {
+            'date': f"'{datetime.datetime.now()}'",
+            'start_time': time.time(),
+            'work_time': work_time,
+            'break_time': break_time,
+            'cycles': cycles
+                   }
         requests.post(url, data=json.dumps(payload), headers=headers)
 
         workLED.on()
