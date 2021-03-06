@@ -1,21 +1,28 @@
-from flask import Flask, jsonify
-
+from flask import Flask, jsonify, request
+import time
 
 app = Flask(__name__)
+globalData = time.time()
 
 @app.route('/')
 def home():
-    return "Mikha"
+    return jsonify(globalData)
 
-@app.route('/currentdata')
+@app.route('/currentdata', methods=['GET','POST'])
 def currentdata():
-    response = "Filler"
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
+    if request.method == 'POST':
+        global globalData
+        data = request.get_json()
+        globalData = data['test']
+        response = jsonify({'success':True})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
+    else:
+        return jsonify(globalData)
 
 @app.route('/historicaldata')
 def olddata():
-    response = "Filler"
+    response = jsonify({'success':True})
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 

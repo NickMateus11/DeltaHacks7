@@ -1,9 +1,13 @@
 import time
 import gpiozero as zero
 import keypad_test as kp
+import requests
+import json
 
 workLED = zero.LED('GPIO21')
 breakLED = zero.LED('GPIO20')
+url = 'http://192.168.0.126:5000/currentdata'
+headers = {'content-type': 'application/json'}
 
 def workTimeSet():
     workLED.blink(0.5,0.5)
@@ -33,7 +37,9 @@ def Pom():
         work_time = workTimeSet()
         break_time = breakTimeSet()
         cycles = cyclesSet()
-        # sending POST to backend
+
+        payload = {'test': time.time()}
+        requests.post(url, data=json.dumps(payload), headers=headers)
 
         workLED.on()
         breakLED.off()
@@ -55,6 +61,8 @@ def Pom():
         kp.beep(10)
         time.sleep(1)
         kp.beep(10)
+        workLED.off()
+        breakLED.off()
 
     except kp.ResetInterrupt:
         workLED.blink(0.2,0.2)
