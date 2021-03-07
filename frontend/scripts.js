@@ -14,12 +14,12 @@ async function getCurrentData() {
         minute = second * 60,
         hour = minute * 60,
         day = hour * 24;
-    data = await getCurrentData();
-    now = new Date().getTime();
-    newnow = data.start_time_epoch;
-    endtime = newnow + (data.work_time + data.break_time) * data.cycles;
-    let time = endtime,
-        x = setInterval(function () {
+    let data = await getCurrentData(),
+        now = new Date().getTime(),
+        newnow = data.start_time_epoch,
+        endtime = newnow + (data.work_time + data.break_time) * data.cycles,
+        time = endtime,
+        x = setInterval(() => {
             now = new Date().getTime();
             time = endtime - now / 1000;
             document.getElementById("hours").innerText = Math.floor((time % (day)) / (hour)),
@@ -27,7 +27,7 @@ async function getCurrentData() {
             document.getElementById("seconds").innerText = Math.floor((time % (minute)) / second);
 
             document.getElementById("headline").innerText = "";
-            if (Math.floor((time % (hour)) / (minute)) % 2 == 0) {
+            if (time % (data.work_time + data.break_time) > data.break_time) {
                 document.getElementById("onoroff").innerText = "Keep Working";
             }
             else {
