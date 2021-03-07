@@ -1,6 +1,8 @@
 
 # Pomodoro Technique!
 
+Demo Video (2 min time constraint): https://drive.google.com/file/d/1LEwXhgMvs2y6-Ic8LnIoQg2ycAxEg3b3/view?usp=sharing
+
 The Pomodoro Technnique is a method based on working in short bursts and giving yourself intermediate breaks.
 
 This tool will help you keep track of your Pomodoro sessions. By setting your desired "working time", "break time", and number of "cycles" you will be doing through the hardware interface, you will be able to maximize your productivity and get rid of distractions. The standalone hardware solution is an efficient solution to the productivity problem. If you were to use an phone app or other service to track your sessions, you may be tempted to take a sneak peak at your other notifications while you do so.
