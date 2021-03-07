@@ -17,7 +17,7 @@ async function getCurrentData() {
     let data = await getCurrentData(),
         now = new Date().getTime(),
         newnow = data.start_time_epoch,
-        endtime = newnow + (data.work_time + data.break_time) * data.cycles,
+        endtime = newnow + (data.work_time + data.break_time) * data.cycles - data.break_time,
         time = endtime,
         x = setInterval(() => {
             now = new Date().getTime();
@@ -27,7 +27,7 @@ async function getCurrentData() {
             document.getElementById("seconds").innerText = Math.floor((time % (minute)) / second);
 
             document.getElementById("headline").innerText = "";
-            if (time % (data.work_time + data.break_time) > data.break_time) {
+            if ((time+data.break_time) % (data.work_time + data.break_time) > data.break_time) {
                 document.getElementById("onoroff").innerText = "Keep Working";
             }
             else {
@@ -44,7 +44,7 @@ async function getCurrentData() {
                 headline.innerText = "You are done!!";
                 document.getElementById("onoroff").innerText = "";
                 countdown.style.display = "none";
-                content.style.display = "block";
+                // content.style.display = "block";
 
                 clearInterval(x);
             }
