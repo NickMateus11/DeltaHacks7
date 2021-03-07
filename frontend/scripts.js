@@ -141,6 +141,6 @@ function showTotals(data) {
         worked = worked + data[i]["work_time"] * data[i]["cycles"]
         rested = rested + data[i]["break_time"] * data[i]["cycles"]
     }
-    document.getElementById("worked").innerText = worked;
-    document.getElementById("rested").innerText = rested;
+    document.getElementById("worked").innerText = (worked/60).toFixed(2);
+    document.getElementById("rested").innerText = (rested/60).toFixed(2);
 }
