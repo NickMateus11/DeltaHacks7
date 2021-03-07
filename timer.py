@@ -52,7 +52,7 @@ def Pom():
 
         workLED.on()
         breakLED.off()
-        for i in range(2*cycles):
+        for i in range(2*cycles-1):
             start_time = time.time()
             timer_time = work_time if not i%2 else break_time
             elapsed = 0
@@ -60,7 +60,7 @@ def Pom():
                 kp.check_input()
                 elapsed = time.time() - start_time
             print(f"{'Work' if not i%2 else 'Break'} time finished")
-            if i<2*cycles-1:
+            if i<2*cycles-2:
                 kp.beep(5)
                 workLED.toggle()
                 breakLED.toggle()
@@ -75,7 +75,7 @@ def Pom():
     except kp.ResetInterrupt:
         workLED.blink(0.2,0.2)
         breakLED.blink(0.2,0.2)
-        kp.beep(10)
+        kp.beep(10, background=False)
         workLED.off()
         breakLED.off()
         print("Reset Interrupt")
