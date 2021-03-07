@@ -23,11 +23,11 @@ async function getCurrentData() {
             now = new Date().getTime();
             time = endtime - now / 1000;
             document.getElementById("hours").innerText = Math.floor((time % (day)) / (hour)),
-            document.getElementById("minutes").innerText = Math.floor((time % (hour)) / (minute)),
-            document.getElementById("seconds").innerText = Math.floor((time % (minute)) / second);
+                document.getElementById("minutes").innerText = Math.floor((time % (hour)) / (minute)),
+                document.getElementById("seconds").innerText = Math.floor((time % (minute)) / second);
 
             document.getElementById("headline").innerText = "";
-            if ((time+data.break_time) % (data.work_time + data.break_time) > data.break_time) {
+            if ((time + data.break_time) % (data.work_time + data.break_time) > data.break_time) {
                 document.getElementById("onoroff").innerText = "Keep Working";
             }
             else {
@@ -39,8 +39,8 @@ async function getCurrentData() {
                     countdown = document.getElementById("countdown"),
                     content = document.getElementById("content");
                 document.getElementById("hours").innerText = 0,
-                document.getElementById("minutes").innerText = 0,
-                document.getElementById("seconds").innerText = 0;
+                    document.getElementById("minutes").innerText = 0,
+                    document.getElementById("seconds").innerText = 0;
                 headline.innerText = "You are done!!";
                 document.getElementById("onoroff").innerText = "";
                 countdown.style.display = "none";
@@ -79,8 +79,10 @@ list.addEventListener('click', function (ev) {
 
 function newElement() {
     var li = document.createElement("li");
+    li.className = "action";
     var inputValue = document.getElementById("input").value;
-    var t = document.createTextNode(inputValue);
+    var t = document.createElement("p");
+    t.innerHTML = inputValue;
     li.appendChild(t);
     if (inputValue === '') {
         alert("You must write something!");
@@ -93,8 +95,8 @@ function newElement() {
     var txt = document.createTextNode("\u00D7");
     span.className = "close";
     span.appendChild(txt);
+    var action = document.getElementById("newAct");
     li.appendChild(span);
-
     for (i = 0; i < close.length; i++) {
         close[i].onclick = function () {
             var div = this.parentElement;
@@ -104,14 +106,14 @@ function newElement() {
 }
 function showHistory(data) {
     let sessions = Object.keys(data)
-    for (i = 0; i < Math.min(sessions.length,5); i++) {
+    for (i = 0; i < Math.min(sessions.length, 5); i++) {
         table_row = document.createElement('tr');
         var date = document.createElement('td');
         date.className = "stat";
         date.innerHTML = data[i]["date"];
         var start = document.createElement('td');
         start.className = "stat";
-        start.innerHTML = data[i]["start_time"].slice(0,data[i]["start_time"].length-7);
+        start.innerHTML = data[i]["start_time"].slice(0, data[i]["start_time"].length - 7);
         var breaks = document.createElement('td');
         breaks.className = "stat";
         breaks.innerHTML = data[i]["break_time"];
@@ -141,6 +143,6 @@ function showTotals(data) {
         worked = worked + data[i]["work_time"] * data[i]["cycles"]
         rested = rested + data[i]["break_time"] * data[i]["cycles"]
     }
-    document.getElementById("worked").innerText = (worked/60).toFixed(2);
-    document.getElementById("rested").innerText = (rested/60).toFixed(2);
+    document.getElementById("worked").innerText = (worked / 60).toFixed(2);
+    document.getElementById("rested").innerText = (rested / 60).toFixed(2);
 }
