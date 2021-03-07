@@ -23,21 +23,26 @@ async function getCurrentData() {
             now = new Date().getTime();
             time = endtime - now / 1000;
             document.getElementById("hours").innerText = Math.floor((time % (day)) / (hour)),
-                document.getElementById("minutes").innerText = Math.floor((time % (hour)) / (minute)),
-                document.getElementById("seconds").innerText = Math.floor((time % (minute)) / second);
+            document.getElementById("minutes").innerText = Math.floor((time % (hour)) / (minute)),
+            document.getElementById("seconds").innerText = Math.floor((time % (minute)) / second);
 
+            document.getElementById("headline").innerText = "";
             if (Math.floor((time % (hour)) / (minute)) % 2 == 0) {
                 document.getElementById("onoroff").innerText = "Keep Working";
             }
             else {
                 document.getElementById("onoroff").innerText = "Take A Break";
             }
+
             if (time < 0) {
                 let headline = document.getElementById("headline"),
                     countdown = document.getElementById("countdown"),
                     content = document.getElementById("content");
-
+                document.getElementById("hours").innerText = 0,
+                document.getElementById("minutes").innerText = 0,
+                document.getElementById("seconds").innerText = 0;
                 headline.innerText = "You are done!!";
+                document.getElementById("onoroff").innerText = "";
                 countdown.style.display = "none";
                 content.style.display = "block";
 
@@ -99,29 +104,29 @@ function newElement() {
 }
 function showHistory(data) {
     let sessions = Object.keys(data)
-    for (i = 0; i < sessions.length; i++) {
-        var ul = document.createElement('ul');
-        var date = document.createElement('li');
+    for (i = 0; i < Math.min(sessions.length,5); i++) {
+        table_row = document.createElement('tr');
+        var date = document.createElement('td');
         date.className = "stat";
         date.innerHTML = data[i]["date"];
-        var start = document.createElement('li');
+        var start = document.createElement('td');
         start.className = "stat";
-        start.innerHTML = "Start Time:" + data[i]["start_time"];
-        var breaks = document.createElement('li');
+        start.innerHTML = data[i]["start_time"].slice(0,data[i]["start_time"].length-7);
+        var breaks = document.createElement('td');
         breaks.className = "stat";
-        breaks.innerHTML = "Break Time:" + data[i]["break_time"];
-        var cycles = document.createElement('li');
+        breaks.innerHTML = data[i]["break_time"];
+        var cycles = document.createElement('td');
         cycles.className = "stat";
-        cycles.innerHTML = "Cycles:" + data[i]["cycles"];
-        var work = document.createElement("li");
+        cycles.innerHTML = data[i]["cycles"];
+        var work = document.createElement("td");
         work.className = "stat";
-        work.innerHTML = "Work Time:" + data[i]["work_time"];
-        ul.appendChild(date);
-        ul.appendChild(start);
-        ul.appendChild(work);
-        ul.appendChild(breaks);
-        ul.appendChild(cycles);
-        document.getElementById("sessions").appendChild(ul);
+        work.innerHTML = data[i]["work_time"];
+        table_row.appendChild(date);
+        table_row.appendChild(start);
+        table_row.appendChild(work);
+        table_row.appendChild(breaks);
+        table_row.appendChild(cycles);
+        document.getElementById("sessions").appendChild(table_row);
     }
 }
 getHistoricalData().then((data) => {
