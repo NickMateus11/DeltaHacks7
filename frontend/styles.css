@@ -99,6 +99,31 @@ ul li.checked::before {
   width: 7px;
 }
 
+ul li.stat {
+  padding:10px;
+  margin: 0 auto;
+  cursor: auto; 
+  position: relative;
+  color: black;
+  border: 1px solid black;  
+}
+
+.total {
+  cursor: default; 
+  display: inline-block; 
+  padding: 5px;
+  margin: 0;  
+  background-color: #ffb2c1;
+  transition: 0.3s;
+  border: 2px solid white; 
+}
+.total:hover{
+  background-color: #f88b9b;
+  cursor: default;
+}
+.total p{
+  display: inline;
+} 
 .close {
   position: absolute;
   right: 0;
