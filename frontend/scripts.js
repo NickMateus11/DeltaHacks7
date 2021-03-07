@@ -106,7 +106,7 @@ function newElement() {
 }
 function showHistory(data) {
     let sessions = Object.keys(data)
-    for (i = 0; i < Math.min(sessions.length, 5); i++) {
+    for (i = sessions.length-1; i > Math.max(0, sessions.length-6); i--) {
         table_row = document.createElement('tr');
         var date = document.createElement('td');
         date.className = "stat";
