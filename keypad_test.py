@@ -1,5 +1,6 @@
 import gpiozero as zero
 from time import time, sleep
+import threading
 
 ENTER = '#'
 RESET = '*'
@@ -71,13 +72,19 @@ def get_input(doBeep=False):
                 beep()
             return button
 
-def beep(repeat=1):
+def threaded_beep(repeat,delay=0.1):
     buz = zero.PWMOutputDevice('GPIO1')
     for _ in range(repeat):
         buz.value = 0.2
-        sleep(0.1)
+        sleep(delay)
         buz.off()
-        sleep(0.1)
+        sleep(delay)
+
+def beep(repeat=1, delay=0.1, background=True):
+    if background:
+        threading.Thread(target=threaded_beep, args=(repeat,delay,), daemon=True).start()
+    else:
+        threaded_beep(repeat, delay)
 
 def main():
     while True:

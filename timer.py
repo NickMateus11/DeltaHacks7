@@ -43,6 +43,7 @@ def Pom():
         payload = {
             'date': f"'{str(date.date())}'",
             'start_time': f"'{str(date.time())}'",
+            'start_time_epoch': time.time(),
             'work_time': work_time,
             'break_time': break_time,
             'cycles': cycles
@@ -66,9 +67,8 @@ def Pom():
 
         workLED.blink(0.5,0.5)
         breakLED.blink(0.5,0.5)
-        kp.beep(10)
-        time.sleep(1)
-        kp.beep(10)
+        kp.beep(3,delay=0.3, background=False)
+        kp.beep(1,delay=0.75, background=False)
         workLED.off()
         breakLED.off()
 
