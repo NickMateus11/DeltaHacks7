@@ -9,31 +9,30 @@ async function getCurrentData() {
     return data
 }
 
-(function () {
-    const second = 1000,
+(async function () {
+    const second = 1,
         minute = second * 60,
         hour = minute * 60,
         day = hour * 24;
-
-    let endtime = "March 7, 2021 00:00:00",
-        countDown = new Date(endtime).getTime(),
+    data = await getCurrentData();
+    now = new Date().getTime();
+    newnow = data.start_time_epoch;
+    endtime = newnow + (data.work_time + data.break_time) * data.cycles;
+    let time = endtime,
         x = setInterval(function () {
+            now = new Date().getTime();
+            time = endtime - now / 1000;
+            document.getElementById("hours").innerText = Math.floor((time % (day)) / (hour)),
+                document.getElementById("minutes").innerText = Math.floor((time % (hour)) / (minute)),
+                document.getElementById("seconds").innerText = Math.floor((time % (minute)) / second);
 
-            let now = new Date().getTime(),
-                distance = countDown - now;
-            document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
-                document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
-                document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
-
-            if (Math.floor((distance % (hour)) / (minute)) % 2 == 0) {
+            if (Math.floor((time % (hour)) / (minute)) % 2 == 0) {
                 document.getElementById("onoroff").innerText = "Keep Working";
-
             }
             else {
                 document.getElementById("onoroff").innerText = "Take A Break";
             }
-
-            if (distance < 0) {
+            if (time < 0) {
                 let headline = document.getElementById("headline"),
                     countdown = document.getElementById("countdown"),
                     content = document.getElementById("content");
@@ -46,13 +45,6 @@ async function getCurrentData() {
             }
         }, 0)
 }());
-
-
-
-
-
-
-
 
 var myNodelist = document.getElementsByClassName("close");
 var i;
